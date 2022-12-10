@@ -1,28 +1,60 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import '../screens/meal_detail_screen.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
 
-  const MealItem(
-      {required this.title,
-      required this.imageUrl,
-      required this.duration,
-      required this.complexity,
-      required this.affordability});
+  String get complxityText {
+    switch (complexity) {
+      case Complexity.Simple:
+        return 'Simple';
+      case Complexity.Challenging:
+        return 'Challenging';
+      case Complexity.Hard:
+        return 'Hard';
+      default:
+        return 'UnKnown';
+    }
+  }
 
-  void selectMeal() {}
+  String get getAffordabilityText {
+    switch (affordability) {
+      case Affordability.Affordable:
+        return 'Affordable';
+      case Affordability.Pricey:
+        return 'Pricey';
+      case Affordability.Luxurious:
+        return 'Luxurious';
+      default:
+        return 'UnKnown';
+    }
+  }
+
+  const MealItem({
+    required this.title,
+    required this.imageUrl,
+    required this.duration,
+    required this.complexity,
+    required this.affordability,
+    required this.id,
+  });
+
+  void selectMeal(BuildContext context) {
+    Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: selectMeal,
+      onTap: () => selectMeal(context),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -44,7 +76,52 @@ class MealItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    width: 300,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    color: Colors.black45,
+                    child: Text(
+                      title,
+                      style: const TextStyle(fontSize: 26, color: Colors.white),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                )
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(children: [
+                    const Icon(Icons.schedule),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Text('$duration mins'),
+                  ]),
+                  Row(children: [
+                    const Icon(Icons.work),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Text(complxityText),
+                  ]),
+                  Row(children: [
+                    const Icon(Icons.attach_money),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Text(getAffordabilityText),
+                  ])
+                ],
+              ),
             )
           ],
         ),

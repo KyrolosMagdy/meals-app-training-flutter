@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './screens/categories_screen.dart';
+import './screens/tabs_screen.dart';
 import './screens/category_meal_screen.dart';
+import './screens/meal_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,22 +24,32 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color.fromRGBO(255, 254, 229, 1),
         fontFamily: 'Raleway',
         textTheme: Typography.whiteMountainView.copyWith(
-            bodyLarge: typeTheme.bodyLarge?.copyWith(
-              color: const Color.fromRGBO(20, 51, 51, 1),
-            ),
-            bodyMedium: typeTheme.bodyMedium?.copyWith(
-              color: const Color.fromRGBO(20, 51, 51, 1),
-            ),
-            titleMedium: typeTheme.titleMedium?.copyWith(
-              fontSize: 20,
-              fontFamily: 'RobotoCondensed',
-              fontWeight: FontWeight.bold,
-            )),
+          bodyLarge: typeTheme.bodyLarge?.copyWith(
+            color: const Color.fromRGBO(20, 51, 51, 1),
+          ),
+          bodyMedium: typeTheme.bodyMedium?.copyWith(
+            color: const Color.fromRGBO(20, 51, 51, 1),
+          ),
+          titleMedium: typeTheme.titleMedium?.copyWith(
+            fontSize: 20,
+            fontFamily: 'RobotoCondensed',
+            fontWeight: FontWeight.bold,
+          ),
+          titleSmall: typeTheme.titleMedium?.copyWith(
+            fontSize: 20,
+            fontFamily: 'RobotoCondensed',
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
       ),
       routes: {
-        '/': (ctx) => const CategoriesScreen(),
-        CategoryMealScreen.routeName: (ctx) => const CategoryMealScreen()
+        '/': (ctx) => const TabsScreen(),
+        CategoryMealScreen.routeName: (ctx) => const CategoryMealScreen(),
+        MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
       },
+      onUnknownRoute: ((settings) => MaterialPageRoute(
+          builder: ((context) => const CategoryMealScreen()))),
     );
   }
 }
